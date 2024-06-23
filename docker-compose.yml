@@ -7,4 +7,19 @@ services:
       - POSTGRES_PASSWORD=mysecretpassword
       - POSTGRES_USER=fd_user
       - POSTGRES_DB=fd_db
-    
+  football-dynasty:
+    image: dcritchlow/football-dynasty:main
+    restart: always
+    init: true
+    ports:
+      - "3000:3000"
+  football-dynasty-be:
+    image: dcritchlow/football-dynasty-be:main
+    restart: always
+    init: true
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fd_db
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
